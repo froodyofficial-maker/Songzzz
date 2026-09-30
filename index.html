@@ -1,476 +1,82 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Songz</title>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Songz</title>
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;background:#000;color:#f4f4f4;font-family:Arial,Helvetica,sans-serif}
-button,input,select{font:inherit}
-button{color:#eee;background:#0b0b0b;border:1px solid #292929;cursor:pointer}
-button:hover{background:#111}
-.header{height:92px;background:#0b0b0b;border-bottom:1px solid #222;display:flex;align-items:center;justify-content:space-between;padding:0 48px}
-.logo{font-size:38px;font-weight:700;letter-spacing:-2px;position:relative}
-.logo span{color:#168cff;font-size:20px;position:absolute;left:101px;top:-11px;letter-spacing:0;transform:rotate(-7deg)}
-.nav{display:flex;gap:86px}
-.nav button{background:transparent;border:0;font-size:19px;padding:0}
-.nav button.active{font-weight:700}
-main{max-width:1280px;margin:auto;padding:52px 48px}
-.page{display:none}.page.active{display:block}
-h1{font-size:36px;margin:0 0 38px}
-.blue{color:#168cff}
-.hero{display:grid;grid-template-columns:1fr 1fr;gap:100px;max-width:1000px;margin:48px auto 0;align-items:center}
-.upload-square{height:340px;border:1px solid #292929;background:#0b0b0b;display:flex;align-items:center;justify-content:center;text-align:center;font-size:21px;cursor:pointer}
-.now{text-align:center}.now h2{font-size:36px;margin:0 0 25px}.now .time{font-size:24px;margin-bottom:55px}
-.controls{display:flex;justify-content:center;align-items:center;gap:55px}
-.controls button{width:46px;height:46px;border-radius:50%;font-size:25px;padding:0}
-.controls .play{background:transparent;border:0;font-size:40px}
-.repeat{margin:18px auto 0;padding:6px 12px;border-radius:5px;background:transparent}
-.repeat.on{color:#168cff;border-color:#168cff}
-.seek{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:22px;font-size:10px}
-.seek input{width:160px;accent-color:#888}
-.quick{margin-top:90px}.quick h2{font-size:34px;margin-bottom:95px}.quickrow{display:flex;justify-content:center;gap:26px}
-.quickrow button{width:245px;height:112px;border-radius:42px;font-size:28px;font-weight:700}
-.grid3{display:grid;grid-template-columns:repeat(3,188px);gap:40px;justify-content:center;margin-top:50px}
-.tile{text-align:center;cursor:pointer}.cover{width:188px;height:188px;background:#0b0b0b;border:1px solid #292929;display:flex;align-items:center;justify-content:center;overflow:hidden}.cover img{width:100%;height:100%;object-fit:cover}
-.tile .title{font-weight:700;font-size:18px;margin-top:12px}.tile .count{font-size:11px;color:#777;margin-top:4px}
-.empty{grid-column:1/-1;text-align:center;color:#777;padding:50px}
-.add{display:block;margin:34px auto 0;padding:11px 18px}
-.tools-title{text-align:center;font-size:37px;margin:0 0 58px}
-.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:865px;margin:auto}
-.tools-grid button{height:110px;font-size:27px}
-.footer-note{text-align:center;color:#888;margin-top:110px;font-size:14px}
-.upload-layout{display:grid;grid-template-columns:275px 1fr;gap:30px;max-width:900px}
-.upload-box{height:258px;border:1px solid #292929;background:#0b0b0b;display:flex;align-items:center;justify-content:center;text-align:center;font-size:20px;cursor:pointer}
-.form{max-width:520px}.field{margin-bottom:18px}.field input,.field select{width:100%;padding:13px 15px;border:1px solid #292929;background:#0b0b0b;color:#eee;border-radius:11px;outline:none}.upload-btn{padding:13px 19px;border-radius:12px}.settings{font-size:24px;font-weight:700;margin:12px 0}.setting{font-size:17px;margin:9px 0;display:flex;align-items:center;gap:8px}.circle{appearance:none;width:21px;height:21px;border-radius:50%;background:#111;border:1px solid #292929}.circle:checked{background:#168cff}
-.tool-head{text-align:center;font-size:37px;margin:0 0 55px}.source-row{display:flex;align-items:center;justify-content:center;gap:20px}.source-card{width:180px;height:165px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:21px}.hidden-select{position:absolute;opacity:0;pointer-events:none}
-.timeline-title{display:flex;justify-content:space-between;font-size:26px;font-weight:700;margin:26px 0 9px}.cut{color:#168cff}.timeline{height:82px;border-top:1px solid #292929;border-bottom:1px solid #222;background:#0b0b0b;position:relative}.playhead{position:absolute;left:21%;height:100%;width:5px;background:#b40000}.playhead:before{content:"";position:absolute;left:-4px;top:-4px;width:12px;height:12px;background:#b40000;border-radius:50%}
-.timeline-times{display:flex;justify-content:space-between;margin-top:-52px;padding:0 10px;position:relative}
-.tool-controls{max-width:620px;margin:60px auto 0}.range-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}.range-row label{display:block;margin-bottom:8px}.range{width:100%;accent-color:#888}
-.center{text-align:center}.export{padding:12px 18px;margin-top:40px}.status{text-align:center;color:#888;min-height:18px;margin-top:10px}
-.modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;z-index:20}.modal.open{display:flex}.modalbox{width:390px;padding:25px;background:#0b0b0b;border:1px solid #292929}.modalbox input{width:100%;padding:12px;background:#050505;color:#fff;border:1px solid #292929}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.modal-actions button{padding:9px 13px}
-.playlist-detail{max-width:800px;margin:0 auto}.back{padding:8px 12px;margin-bottom:18px}.song-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #191919;cursor:pointer}.song-row img{width:42px;height:42px;object-fit:cover;background:#0b0b0b;border:1px solid #222}
-@media(max-width:850px){
-.header{height:auto;padding:22px 20px;gap:20px}.logo{font-size:30px}.logo span{left:78px;top:-9px;font-size:16px}.nav{gap:25px;overflow:auto}.nav button{font-size:15px}
-main{padding:30px 18px}.hero{grid-template-columns:1fr;gap:35px}.upload-square{width:100%;height:260px}.quickrow,.tools-grid,.grid3{display:grid;grid-template-columns:1fr;justify-items:center}.quickrow button{width:100%}.grid3{margin-top:30px}.upload-layout{grid-template-columns:1fr}.source-row{flex-wrap:wrap}.range-row{grid-template-columns:1fr}
-}
-</style>
-</head>
+*{box-sizing:border-box}html,body{margin:0;background:#000;color:#eee;font-family:Arial,sans-serif}button,input,select{font:inherit}
+button{background:rgba(255,255,255,.045);color:#eee;border:1px solid #292929;cursor:pointer;transition:.2s}button:hover{transform:translateY(-2px);background:rgba(255,255,255,.09);box-shadow:0 12px 30px #0008}
+.header{height:92px;background:#090909dd;border-bottom:1px solid #222;display:flex;align-items:center;justify-content:space-between;padding:0 48px;backdrop-filter:blur(22px);position:sticky;top:0;z-index:10}
+.logo{font-size:38px;font-weight:700;letter-spacing:-2px;position:relative}.logo span{position:absolute;color:#168cff;font-size:19px;left:101px;top:-12px;transform:rotate(-7deg)}
+.nav{display:flex;gap:86px}.nav button{background:none;border:0;font-size:19px;padding:0}.nav .active{font-weight:700}
+main{max-width:1280px;margin:auto;padding:48px}.page{display:none}.page.active{display:block;animation:in .25s ease}@keyframes in{from{opacity:0;transform:translateY(7px)}to{opacity:1}}
+h1{font-size:36px;margin:0 0 40px}.blue{color:#168cff}.empty{text-align:center;color:#777;padding:45px}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:90px;max-width:1000px;margin:50px auto}.hero-cover{height:340px;border:1px solid #292929;background:linear-gradient(145deg,#111,#080808);display:flex;align-items:center;justify-content:center;text-align:center;font-size:21px;box-shadow:inset 0 1px #ffffff0a,0 25px 70px #000}
+.now{text-align:center}.now h2{font-size:36px;margin:45px 0 25px}.time{font-size:24px;margin-bottom:48px}.controls{display:flex;justify-content:center;gap:52px;align-items:center}.controls button{width:46px;height:46px;border-radius:50%;font-size:25px}.controls .play{background:none;border:0;font-size:39px}.seek{display:flex;align-items:center;justify-content:center;gap:8px;font-size:10px;margin-top:20px}.seek input{width:160px;accent-color:#888}.repeat{border-radius:20px;padding:6px 12px;margin-top:15px}.repeat.on{color:#168cff;border-color:#168cff}
+.quick{margin-top:80px}.quick h2{font-size:34px;margin-bottom:95px}.quickrow{display:flex;justify-content:center;gap:26px}.quickrow button{width:245px;height:112px;border-radius:42px;font-size:28px;font-weight:700}
+.grid3{display:grid;grid-template-columns:repeat(3,188px);gap:40px;justify-content:center;margin-top:50px}.tile{text-align:center;cursor:pointer}.cover{width:188px;height:188px;background:linear-gradient(145deg,#111,#080808);border:1px solid #292929;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:.2s}.tile:hover .cover{border-color:#168cff55;box-shadow:0 0 35px #168cff10}.cover img{width:100%;height:100%;object-fit:cover}.title{font-weight:700;font-size:18px;margin-top:12px}.count{font-size:11px;color:#777;margin-top:4px}.add{display:block;margin:35px auto;padding:11px 18px}
+.tools-title{text-align:center;font-size:37px;margin-bottom:58px}.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:865px;margin:auto}.tools-grid button{height:110px;font-size:27px}.note{text-align:center;color:#888;margin-top:108px;font-size:14px}
+.upload-layout{display:grid;grid-template-columns:275px 1fr;gap:30px;max-width:920px}.upload-box{height:258px;border:1px solid #292929;background:linear-gradient(145deg,#111,#080808);display:flex;align-items:center;justify-content:center;text-align:center;font-size:20px;cursor:pointer;box-shadow:inset 0 1px #fff0,0 20px 60px #000}.upload-box:hover{border-color:#168cff77}.form{max-width:520px}.field{margin-bottom:18px}.field input{width:100%;padding:13px;background:#0b0b0b;color:#fff;border:1px solid #292929;border-radius:11px}.upload-btn{padding:13px 19px;border-radius:12px}.settings{font-size:24px;font-weight:700;margin:20px 0 10px}.setting{font-size:17px;margin:9px 0;display:flex;align-items:center;gap:8px}.circle{appearance:none;width:21px;height:21px;border-radius:50%;background:#111;border:1px solid #292929}.circle:checked{background:#168cff}.cover-preview{display:none;width:275px;height:150px;object-fit:cover;margin-top:14px;border:1px solid #292929}.cover-preview.show{display:block}
+.tool-head{text-align:center;font-size:37px;margin-bottom:55px}.source-row{display:flex;justify-content:center;align-items:center;gap:20px}.source-card{width:180px;height:165px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:21px;background:linear-gradient(145deg,#111,#080808)}.hidden{position:absolute;opacity:0;width:1px;height:1px}.status{text-align:center;color:#888;min-height:18px;margin:10px}
+.editor-fades{display:flex;justify-content:center;gap:50px;margin:25px 0}.editor-fades label{font-size:24px;font-weight:700;color:#168cff}
+.editor-wrap{margin-top:28px;padding:18px;border:1px solid #ffffff16;border-radius:15px;background:linear-gradient(145deg,#ffffff0c,#ffffff02);box-shadow:inset 0 1px #ffffff08,0 25px 70px #0008;backdrop-filter:blur(18px)}
+.timeline-title{display:flex;justify-content:space-between;font-size:26px;font-weight:700;margin-bottom:10px}.cut{color:#168cff}.wave{height:155px;position:relative;overflow:hidden;border:1px solid #ffffff12;border-radius:10px;background:#090909;cursor:ew-resize}.bars{position:absolute;inset:0;display:flex;align-items:center;gap:2px;padding:0 6px}.bar{flex:1;background:linear-gradient(#168cff,#555);border-radius:2px;opacity:.7}.selection{position:absolute;top:0;bottom:0;background:#168cff18;border-left:2px solid #168cff;border-right:2px solid #168cff}.head{position:absolute;top:0;bottom:0;width:3px;background:#e00000;box-shadow:0 0 15px #e0000099;z-index:4}.head:before{content:"";position:absolute;left:-5px;top:-4px;width:13px;height:13px;border-radius:50%;background:#e00000}.handle{position:absolute;top:0;bottom:0;width:10px;z-index:5;cursor:ew-resize}.handle:after{content:"";position:absolute;left:4px;top:0;bottom:0;width:2px;background:#fff}.times{display:flex;justify-content:space-between;font-size:12px;margin-top:8px}.editor-actions{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap}.pill{border-radius:20px;padding:8px 14px}
+.result{display:none;max-width:560px;margin:30px auto 0;padding:20px;border:1px solid #ffffff18;border-radius:15px;background:linear-gradient(145deg,#ffffff0c,#ffffff02);box-shadow:0 20px 70px #000}.result.show{display:block}.result input{width:100%;padding:13px;background:#050505;color:white;border:1px solid #292929;border-radius:10px}.result-actions{display:flex;justify-content:center;gap:12px;margin-top:15px}.result-actions button{padding:10px 15px}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:50}.modal.open{display:flex}.modalbox{width:390px;padding:25px;border:1px solid #292929;background:#0c0c0cee;backdrop-filter:blur(25px)}.modalbox input{width:100%;padding:12px;background:#050505;color:white;border:1px solid #292929}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}
+@media(max-width:850px){.header{padding:20px;height:auto}.logo{font-size:30px}.logo span{left:78px}.nav{gap:25px}.nav button{font-size:15px}main{padding:30px 18px}.hero,.upload-layout{grid-template-columns:1fr}.hero{gap:30px}.hero-cover{height:260px}.quickrow,.tools-grid,.grid3{display:grid;grid-template-columns:1fr;justify-items:center}.quickrow button{width:100%}.source-row{flex-wrap:wrap}.editor-fades{gap:20px;flex-wrap:wrap}.tools-grid{margin-top:20px}}
+</style></head>
 <body>
-
-<header class="header">
-  <div class="logo">Song<span>z z</span></div>
-  <nav class="nav">
-    <button data-page="playlists">Playlists</button>
-    <button data-page="songs" class="active">Songs</button>
-    <button data-page="tools">Tools</button>
-  </nav>
-</header>
-
+<header class="header"><div class="logo">Song<span>z z</span></div><nav class="nav"><button data-page="playlists">Playlists</button><button data-page="songs" class="active">Songs</button><button data-page="tools">Tools</button></nav></header>
 <main>
-<section id="songs" class="page active">
-  <div class="hero">
-    <label class="upload-square">
-      <input id="quickUpload" type="file" accept="audio/*" hidden>
-      <span><b class="blue">Upload</b> a song</span>
-    </label>
-    <div class="now">
-      <h2 id="nowName">Name of song</h2>
-      <div class="time" id="nowTime">Time</div>
-      <div class="controls">
-        <button onclick="previousSong()">&lt;</button>
-        <button class="play" id="playButton" onclick="togglePlay()">Ⅱ</button>
-        <button onclick="nextSong()">&gt;</button>
-      </div>
-      <button id="repeatButton" class="repeat" onclick="toggleRepeat()">↻ Repeat</button>
-      <div class="seek">
-        <span id="currentTime">0:00</span>
-        <input id="seek" type="range" min="0" max="100" value="0">
-        <span id="duration">0:00</span>
-      </div>
-    </div>
-  </div>
+<section id="songs" class="page active"><div class="hero">
+<div class="hero-cover"><span id="homeText">No song uploaded</span><img id="homeImg" style="display:none;width:100%;height:100%;object-fit:cover"></div>
+<div class="now"><h2 id="nowName">Name of song</h2><div class="time" id="nowTime">Time</div><div class="controls"><button onclick="prev()">&lt;</button><button class="play" id="play" onclick="toggle()">▶</button><button onclick="next()">&gt;</button></div><button id="repeat" class="repeat" onclick="toggleRepeat()">↻ Repeat</button><div class="seek"><span id="cur">0:00</span><input id="seek" type="range" min="0" max="100" value="0"><span id="dur">0:00</span></div></div></div>
+<div class="quick"><h2>Quick Actions</h2><div class="quickrow"><button onclick="go('playlists')">Playlists</button><button onclick="go('library')">Songs</button><button onclick="go('tools')">Tools</button></div></div></section>
 
-  <div class="quick">
-    <h2>Quick Actions</h2>
-    <div class="quickrow">
-      <button onclick="go('playlists')">Playlists</button>
-      <button onclick="go('songs-library')">Songs</button>
-      <button onclick="go('tools')">Tools</button>
-    </div>
-  </div>
-</section>
+<section id="library" class="page"><h1>Library</h1><div id="libraryGrid" class="grid3"></div></section>
 
-<section id="songs-library" class="page">
-  <h1>Library</h1>
-  <div id="libraryGrid" class="grid3"></div>
-</section>
+<section id="playlists" class="page"><h1>Playlists</h1><div id="playlistGrid" class="grid3"></div><button class="add" onclick="newPlaylist()">＋ New playlist</button></section>
 
-<section id="playlists" class="page">
-  <h1>Playlists</h1>
-  <div id="playlistGrid" class="grid3"></div>
-  <button class="add" onclick="openPlaylistModal()">＋ New playlist</button>
-</section>
+<section id="tools" class="page"><h1 class="tools-title">Tools</h1><div class="tools-grid"><button onclick="go('eightd')"><span class="blue">8D</span> Audio</button><button onclick="go('editor')"><span class="blue">Song</span> editor</button><button onclick="go('upload')">Uploads</button></div><div class="note">You can always change specific song settings later by right clicking a song in the songs channel</div></section>
 
-<section id="tools" class="page">
-  <h1 class="tools-title">Tools</h1>
-  <div class="tools-grid">
-    <button onclick="go('8d')"><span class="blue">8D</span> Audio</button>
-    <button onclick="go('editor')"><span class="blue">Song</span> editor</button>
-    <button onclick="go('upload')">Uploads</button>
-  </div>
-  <div class="footer-note">You can always change specific song settings later by right clicking a song in the songs channel</div>
-</section>
+<section id="upload" class="page"><h1>Uploads</h1><div class="upload-layout"><div><label class="upload-box" id="uploadBox"><input id="uploadFile" type="file" accept="audio/*" hidden><span><b class="blue">Upload</b> a song<br>or drag it here</span></label><label class="upload-box" id="coverBox" style="height:150px;margin-top:14px"><input id="coverFile" type="file" accept="image/*" hidden><span><b class="blue">Upload</b> cover art<br>optional</span></label><img id="coverPreview" class="cover-preview"></div><div class="form"><div class="field"><input id="songName" placeholder="Name"></div><button id="saveUpload" class="upload-btn">Save to library</button><div class="settings">Settings</div><div class="setting">Put this song on repeat for <input id="repeatCount" type="number" min="0" value="0" style="width:80px;background:#0b0b0b;color:#fff;border:1px solid #292929;padding:7px"> when it plays</div><div class="setting"><input id="hideName" class="circle" type="checkbox"> Hide name</div><div id="uploadStatus" class="status"></div></div></div><div class="note">You can always change specific song settings later by right clicking a song in the songs channel</div></section>
 
-<section id="upload" class="page">
-  <h1>Uploads</h1>
-  <div class="upload-layout">
-    <label class="upload-box" id="uploadBox">
-      <input id="uploadFile" type="file" accept="audio/*" hidden>
-      <span><b class="blue">Upload</b> a song<br>or drag it here</span>
-    </label>
-    <div class="form">
-      <div class="field"><input id="songName" placeholder="Name"></div>
-      <button id="saveUpload" class="upload-btn">Upload song</button>
-      <div class="settings">Settings</div>
-      <div class="setting">Put this song on repeat for <input id="repeatCount" type="number" min="0" value="0" style="width:80px"> when it plays</div>
-      <div class="setting"><input id="hideName" class="circle" type="checkbox"> Hide name</div>
-      <div id="uploadStatus" class="status"></div>
-    </div>
-  </div>
-  <div class="footer-note">You can always change specific song settings later by right clicking a song in the songs channel</div>
-</section>
+<section id="editor" class="page"><div class="tool-head"><span class="blue">Song</span> editor</div><div class="source-row"><button class="source-card" onclick="pickEditorLibrary()">Select <b>songs</b><br>from library</button><span>or</span><label class="source-card"><input id="editorFile" type="file" accept="audio/*" hidden><span><b>Upload</b> a song</span></label><select id="editorSelect" class="hidden"></select></div><div id="editorSelected" class="status">No song selected</div><div class="editor-fades"><label>Fade in <input id="fadeIn" class="circle" type="checkbox"></label><label>Fade out <input id="fadeOut" class="circle" type="checkbox"></label></div><div class="editor-wrap"><div class="timeline-title"><span>Timeline</span><span class="cut">Cut <small style="color:#eee">(shift+d)</small></span></div><div id="wave" class="wave"><div id="bars" class="bars"></div><div id="selection" class="selection"></div><div id="startHandle" class="handle"></div><div id="endHandle" class="handle"></div><div id="head" class="head"></div></div><div class="times"><span id="startTime">0:00</span><span id="playTime">0:00</span><span id="endTime">0:00</span></div><div class="editor-actions"><button class="pill" onclick="previewEdit()">▶ Preview</button><button class="pill" onclick="resetCut()">Reset</button><button class="pill" onclick="cutAtHead()">Cut at playhead</button></div></div><div id="editorStatus" class="status"></div><div id="result" class="result"><b style="font-size:19px">Song successfully edited</b><p style="color:#999">Name your project before exporting.</p><input id="projectName" placeholder="Project name"><div class="result-actions"><button onclick="saveEdited()">Save to library</button><button class="blue" onclick="downloadEdited()">↓ Download MP3</button></div></div></section>
 
-<section id="editor" class="page">
-  <div class="tool-head"><span class="blue">Song</span> editor</div>
-  <div class="source-row">
-    <button class="source-card" onclick="openEditorSongPicker()">Select <b>songs</b><br>from library</button>
-    <span>or</span>
-    <button class="source-card" onclick="go('upload')"><b>Upload</b> a song</button>
-    <select id="editorSong" class="hidden-select"></select>
-  </div>
-  <div class="editor-fades" style="display:flex;justify-content:center;gap:50px;margin-top:25px">
-    <label style="font-size:24px;font-weight:700;color:#168cff">Fade in <input id="fadeIn" class="circle" type="checkbox"></label>
-    <label style="font-size:24px;font-weight:700;color:#168cff">Fade out <input id="fadeOut" class="circle" type="checkbox"></label>
-  </div>
-  <div class="timeline-title"><span>Timeline</span><span class="cut">Cut <small style="color:#eee">(shift+d)</small></span></div>
-  <div class="timeline"><div class="playhead"></div></div>
-  <div class="timeline-times"><span>0:00</span><span id="editorDuration">0:00</span></div>
-  <div class="center"><button class="export" onclick="exportEdited()">Export MP3</button></div>
-  <div id="editorStatus" class="status"></div>
-</section>
-
-<section id="8d" class="page">
-  <div class="tool-head"><span class="blue">8D</span> Audio</div>
-  <div class="source-row">
-    <button class="source-card" onclick="open8dSongPicker()">Select <b>songs</b><br>from library</button>
-    <span>or</span>
-    <button class="source-card" onclick="go('upload')"><b>Upload</b> a song</button>
-    <select id="eightSong" class="hidden-select"></select>
-  </div>
-  <div class="tool-controls">
-    <div class="range-row">
-      <div><label>Speed <span id="speedValue" class="blue">0.35 Hz</span></label><input id="speed" class="range" type="range" min=".05" max="1.5" step=".05" value=".35"></div>
-      <div><label>Depth <span id="depthValue" class="blue">100%</span></label><input id="depth" class="range" type="range" min="0" max="1" step=".05" value="1"></div>
-    </div>
-  </div>
-  <div class="center"><button class="export" onclick="export8D()">Convert to 8D MP3</button></div>
-  <div id="eightStatus" class="status"></div>
-</section>
+<section id="eightd" class="page"><div class="tool-head"><span class="blue">8D</span> Audio</div><div class="source-row"><button class="source-card" onclick="pick8d()">Select <b>songs</b><br>from library</button><span>or</span><label class="source-card"><input id="eightFile" type="file" accept="audio/*" hidden><span><b>Upload</b> a song</span></label><select id="eightSelect" class="hidden"></select></div><div id="eightSelected" class="status">No song selected</div><div style="max-width:600px;margin:35px auto;display:grid;grid-template-columns:1fr 1fr;gap:20px"><label>Speed <span id="speedVal" class="blue">0.35 Hz</span><input id="speed" class="range" type="range" min=".05" max="1.5" step=".05" value=".35"></label><label>Depth <span id="depthVal" class="blue">100%</span><input id="depth" class="range" type="range" min="0" max="1" step=".05" value="1"></label></div><div style="text-align:center"><button onclick="convert8d()" style="padding:12px 18px">Convert to 8D MP3</button></div><div id="eightStatus" class="status"></div></section>
 </main>
-
-<div id="playlistModal" class="modal">
-  <div class="modalbox">
-    <h2 style="margin-top:0">New playlist</h2>
-    <input id="playlistName" placeholder="Playlist name">
-    <div class="modal-actions"><button onclick="closePlaylistModal()">Cancel</button><button onclick="createPlaylist()">Create</button></div>
-  </div>
-</div>
-
+<div id="modal" class="modal"><div class="modalbox"><h2 style="margin-top:0">New playlist</h2><input id="playlistName" placeholder="Playlist name"><div class="modal-actions"><button onclick="closeModal()">Cancel</button><button onclick="createPlaylist()">Create</button></div></div></div>
 <audio id="audio"></audio>
-
 <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.all.js"></script>
 <script>
-const DB_NAME='songz-v6';
-let db=null, songs=[], playlists=[], currentIndex=-1, repeat=false, pendingUpload=null, lastExport=null;
-const $=id=>document.getElementById(id);
-const fmt=s=>!isFinite(s)?'0:00':Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-function go(page){
-  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page));
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',
-    (page==='songs'||page==='songs-library') ? b.dataset.page==='songs' : b.dataset.page===page
-  ));
-  if(page==='songs-library') renderLibrary();
-  if(page==='playlists') renderPlaylists();
-  if(page==='editor') fillEditorSelect();
-  if(page==='8d') fill8dSelect();
-}
-
-document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
-
-function openDB(){
-  return new Promise((resolve,reject)=>{
-    const req=indexedDB.open(DB_NAME,1);
-    req.onupgradeneeded=()=>{
-      const d=req.result;
-      if(!d.objectStoreNames.contains('songs')) d.createObjectStore('songs',{keyPath:'id',autoIncrement:true});
-      if(!d.objectStoreNames.contains('playlists')) d.createObjectStore('playlists',{keyPath:'id',autoIncrement:true});
-    };
-    req.onsuccess=()=>{db=req.result;resolve()};
-    req.onerror=()=>reject(req.error);
-  });
-}
-function dbAll(store){return new Promise((resolve,reject)=>{const r=db.transaction(store).objectStore(store).getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
-function dbAdd(store,obj){return new Promise((resolve,reject)=>{const r=db.transaction(store,'readwrite').objectStore(store).add(obj);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
-function dbPut(store,obj){return new Promise((resolve,reject)=>{const r=db.transaction(store,'readwrite').objectStore(store).put(obj);r.onsuccess=resolve;r.onerror=reject})}
-
-async function refresh(){
-  songs=await dbAll('songs');
-  playlists=await dbAll('playlists');
-  renderLibrary();
-  renderPlaylists();
-  fillEditorSelect();
-  fill8dSelect();
-}
-
-function renderLibrary(){
-  const grid=$('libraryGrid');
-  grid.innerHTML='';
-  if(!songs.length){grid.innerHTML='<div class="empty">No songs in your library yet.</div>';return}
-  songs.forEach(song=>{
-    const tile=document.createElement('div');
-    tile.className='tile';
-    tile.draggable=true;
-    tile.innerHTML='<div class="cover">'+(song.cover?'<img src="'+song.cover+'">':'')+'</div><div class="title">'+esc(song.name)+'</div>';
-    tile.onclick=()=>playSong(song);
-    tile.ondragstart=e=>e.dataTransfer.setData('songId',String(song.id));
-    grid.appendChild(tile);
-  });
-}
-
-function renderPlaylists(){
-  const grid=$('playlistGrid');
-  grid.innerHTML='';
-  if(!playlists.length){grid.innerHTML='<div class="empty">No playlists yet.</div>';return}
-  playlists.forEach(p=>{
-    const tile=document.createElement('div');
-    tile.className='tile';
-    tile.innerHTML='<div class="cover"></div><div class="title">'+esc(p.name)+'</div><div class="count">'+(p.songIds||[]).length+' songs</div>';
-    tile.onclick=()=>openPlaylist(p.id);
-    tile.ondragover=e=>{e.preventDefault();tile.style.outline='1px solid #168cff'};
-    tile.ondragleave=()=>tile.style.outline='';
-    tile.ondrop=async e=>{
-      e.preventDefault();tile.style.outline='';
-      const id=Number(e.dataTransfer.getData('songId'));
-      if(!p.songIds.includes(id)){p.songIds.push(id);await dbPut('playlists',p);await refresh()}
-    };
-    grid.appendChild(tile);
-  });
-}
-
-function openPlaylist(id){
-  const p=playlists.find(x=>x.id===id);
-  if(!p)return;
-  const grid=$('playlistGrid');
-  grid.innerHTML='';
-  const wrap=document.createElement('div');
-  wrap.className='playlist-detail';
-  wrap.innerHTML='<button class="back" onclick="renderPlaylists()">← Back</button><h2>'+esc(p.name)+'</h2><div id="playlistSongs"></div>';
-  grid.appendChild(wrap);
-  const list=$('playlistSongs');
-  if(!p.songIds.length){list.innerHTML='<div class="empty">Drag songs from the Songs page into this playlist.</div>';return}
-  p.songIds.forEach(id=>{
-    const s=songs.find(x=>x.id===id);if(!s)return;
-    const row=document.createElement('div');
-    row.className='song-row';
-    row.innerHTML=(s.cover?'<img src="'+s.cover+'">':'<div style="width:42px;height:42px;border:1px solid #222"></div>')+'<span>'+esc(s.name)+'</span>';
-    row.onclick=()=>playSong(s);
-    list.appendChild(row);
-  });
-}
-
-function openPlaylistModal(){$('playlistModal').classList.add('open');$('playlistName').focus()}
-function closePlaylistModal(){$('playlistModal').classList.remove('open')}
-async function createPlaylist(){
-  const name=$('playlistName').value.trim();
-  if(!name)return;
-  await dbAdd('playlists',{name,songIds:[]});
-  $('playlistName').value='';
-  closePlaylistModal();
-  await refresh();
-  go('playlists');
-}
-
-const audio=$('audio');
-function playSong(song){
-  currentIndex=songs.findIndex(x=>x.id===song.id);
-  audio.src=URL.createObjectURL(song.blob);
-  audio.play();
-  updatePlayer();
-}
-function togglePlay(){
-  if(!audio.src)return;
-  audio.paused?audio.play():audio.pause();
-  updatePlayer();
-}
-function previousSong(){
-  if(!songs.length)return;
-  currentIndex=(currentIndex-1+songs.length)%songs.length;
-  playSong(songs[currentIndex]);
-}
-function nextSong(){
-  if(!songs.length)return;
-  currentIndex=(currentIndex+1)%songs.length;
-  playSong(songs[currentIndex]);
-}
-function updatePlayer(){
-  const s=songs[currentIndex];
-  $('nowName').textContent=s?s.name:'Name of song';
-  $('nowTime').textContent=s?'Playing':'Time';
-  $('playButton').textContent=audio.paused?'▶':'Ⅱ';
-}
-function toggleRepeat(){
-  repeat=!repeat;
-  $('repeatButton').classList.toggle('on',repeat);
-}
-audio.addEventListener('timeupdate',()=>{
-  const p=audio.duration?(audio.currentTime/audio.duration*100):0;
-  $('seek').value=p;
-  $('currentTime').textContent=fmt(audio.currentTime);
-  $('duration').textContent=fmt(audio.duration);
-});
-audio.addEventListener('play',updatePlayer);
-audio.addEventListener('pause',updatePlayer);
-audio.addEventListener('ended',()=>{
-  if(repeat){audio.currentTime=0;audio.play()}
-  else nextSong();
-});
-$('seek').addEventListener('input',()=>{if(audio.duration)audio.currentTime=$('seek').value/100*audio.duration});
-
-async function saveUploadedFile(file){
-  if(!file)return;
-  pendingUpload=file;
-  $('songName').value=file.name.replace(/\.[^/.]+$/,'');
-  $('uploadStatus').textContent='Ready: '+file.name;
-  go('upload');
-}
-$('quickUpload').onchange=()=>saveUploadedFile($('quickUpload').files[0]);
-
-$('uploadBox').onclick=e=>{if(e.target.id!=='uploadFile')$('uploadFile').click()};
-$('uploadFile').onchange=()=>saveUploadedFile($('uploadFile').files[0]);
-$('uploadBox').ondragover=e=>{e.preventDefault();$('uploadBox').style.borderColor='#168cff'};
-$('uploadBox').ondragleave=()=>$('uploadBox').style.borderColor='#292929';
-$('uploadBox').ondrop=e=>{e.preventDefault();$('uploadBox').style.borderColor='#292929';saveUploadedFile(e.dataTransfer.files[0])};
-
-$('saveUpload').onclick=async()=>{
-  if(!pendingUpload)return;
-  const name=$('songName').value.trim()||'Untitled';
-  await dbAdd('songs',{name,blob:pendingUpload,cover:null,repeatCount:Number($('repeatCount').value)||0,hideName:$('hideName').checked});
-  pendingUpload=null;
-  $('uploadStatus').textContent='Saved to library.';
-  $('songName').value='';
-  $('uploadFile').value='';
-  await refresh();
-};
-
-function fillEditorSelect(){
-  const sel=$('editorSong');if(!sel)return;
-  const old=sel.value;
-  sel.innerHTML='<option value="">Select a song</option>'+songs.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join('');
-  if(old)sel.value=old;
-}
-function openEditorSongPicker(){fillEditorSelect();$('editorSong').click()}
-$('editorSong').onchange=async()=>{
-  const s=songs.find(x=>x.id===Number($('editorSong').value));
-  if(!s)return;
-  try{
-    const ctx=new AudioContext(),buf=await ctx.decodeAudioData(await s.blob.arrayBuffer());
-    $('editorDuration').textContent=fmt(buf.duration);await ctx.close();
-  }catch{}
-};
-
-function fill8dSelect(){
-  const sel=$('eightSong');if(!sel)return;
-  const old=sel.value;
-  sel.innerHTML='<option value="">Select a song</option>'+songs.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join('');
-  if(old)sel.value=old;
-}
-function open8dSongPicker(){fill8dSelect();$('eightSong').click()}
-$('speed').oninput=()=>$('speedValue').textContent=(Number($('speed').value)).toFixed(2)+' Hz';
-$('depth').oninput=()=>$('depthValue').textContent=Math.round(Number($('depth').value)*100)+'%';
-
-async function decodeSong(song){
-  const ctx=new AudioContext();
-  const buffer=await ctx.decodeAudioData(await song.blob.arrayBuffer());
-  await ctx.close();
-  return buffer;
-}
-function toInt16(v){return Math.max(-1,Math.min(1,v))*32767}
-function encodeMp3(left,right,rate,status){
-  if(!window.lamejs)throw new Error('MP3 encoder did not load. Check your internet connection.');
-  const enc=new lamejs.Mp3Encoder(2,rate,192),block=1152,parts=[];
-  for(let i=0;i<left.length;i+=block){
-    const n=Math.min(block,left.length-i),L=new Int16Array(n),R=new Int16Array(n);
-    for(let j=0;j<n;j++){L[j]=toInt16(left[i+j]);R[j]=toInt16(right[i+j])}
-    const data=enc.encodeBuffer(L,R);if(data.length)parts.push(new Int8Array(data));
-    if(status)status.textContent='Encoding MP3… '+Math.round(i/left.length*100)+'%';
-  }
-  const end=enc.flush();if(end.length)parts.push(new Int8Array(end));
-  return new Blob(parts,{type:'audio/mpeg'});
-}
-async function processSong(song,mode){
-  const b=await decodeSong(song),rate=b.sampleRate,n=b.length,left=new Float32Array(n),right=new Float32Array(n);
-  const L=b.getChannelData(0),R=b.numberOfChannels>1?b.getChannelData(1):L;
-  const speed=Number($('speed').value),depth=Number($('depth').value);
-  for(let i=0;i<n;i++){
-    if(mode==='8d'){
-      const pan=(Math.sin(i/rate*speed*2*Math.PI)*depth+1)/2;
-      left[i]=L[i]*(1-pan);
-      right[i]=R[i]*pan;
-    }else{
-      let fade=1,t=i/rate;
-      if($('fadeIn').checked)fade=Math.min(fade,t/2);
-      if($('fadeOut').checked)fade=Math.min(fade,(b.duration-t)/2);
-      fade=Math.max(0,Math.min(1,fade));left[i]=L[i]*fade;right[i]=R[i]*fade;
-    }
-  }
-  return {left,right,rate};
-}
-function downloadBlob(blob,name){
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();
-}
-async function exportEdited(){
-  const id=Number($('editorSong').value),s=songs.find(x=>x.id===id);
-  if(!s){$('editorStatus').textContent='Select a song first.';return}
-  try{
-    $('editorStatus').textContent='Rendering…';
-    const p=await processSong(s,'edit'),blob=encodeMp3(p.left,p.right,p.rate,$('editorStatus'));
-    const name=s.name+' (edited).mp3';
-    await dbAdd('songs',{name:name.replace(/\.mp3$/,''),blob,cover:s.cover||null});
-    downloadBlob(blob,name);await refresh();$('editorStatus').textContent='Song successfully edited and added to library.';
-  }catch(e){$('editorStatus').textContent=e.message}
-}
-async function export8D(){
-  const id=Number($('eightSong').value),s=songs.find(x=>x.id===id);
-  if(!s){$('eightStatus').textContent='Select a song first.';return}
-  try{
-    $('eightStatus').textContent='Rendering…';
-    const p=await processSong(s,'8d'),blob=encodeMp3(p.left,p.right,p.rate,$('eightStatus'));
-    const name=s.name+' (8D).mp3';
-    await dbAdd('songs',{name:name.replace(/\.mp3$/,''),blob,cover:s.cover||null});
-    downloadBlob(blob,name);await refresh();$('eightStatus').textContent='Song successfully converted and added to library.';
-  }catch(e){$('eightStatus').textContent=e.message}
-}
-document.addEventListener('keydown',e=>{
-  if(e.shiftKey&&e.key.toLowerCase()==='d'){if($('editor').classList.contains('active'))toastCut();return}
-  if(e.code==='Space'&&!['INPUT','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();togglePlay()}
-});
-function toastCut(){$('editorStatus').textContent='Cut marker added — choose the section you want to keep.'}
-
-openDB().then(refresh).catch(e=>console.error(e));
-</script>
-</body>
-</html>
+const $=id=>document.getElementById(id),fmt=s=>!isFinite(s)?'0:00':Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let db,songs=[],playlists=[],current=-1,repeat=false,pending=null,editBuf=null,editStart=0,editEnd=0,editHead=0,editedBlob=null,editedBase='';
+function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===p));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',(p==='songs'||p==='library')?x.dataset.page==='songs':x.dataset.page===p));if(p==='library')renderLibrary();if(p==='playlists')renderPlaylists();if(p==='editor')fillEditSelect();if(p==='eightd')fill8dSelect()}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function openDB(){return new Promise((ok,no)=>{let r=indexedDB.open('songz-v7',1);r.onupgradeneeded=()=>{let d=r.result;if(!d.objectStoreNames.contains('songs'))d.createObjectStore('songs',{keyPath:'id',autoIncrement:true});if(!d.objectStoreNames.contains('playlists'))d.createObjectStore('playlists',{keyPath:'id',autoIncrement:true})};r.onsuccess=()=>{db=r.result;ok()};r.onerror=()=>no(r.error)})}
+function all(s){return new Promise((ok,no)=>{let r=db.transaction(s).objectStore(s).getAll();r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
+function add(s,o){return new Promise((ok,no)=>{let r=db.transaction(s,'readwrite').objectStore(s).add(o);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
+function put(s,o){return new Promise((ok,no)=>{let r=db.transaction(s,'readwrite').objectStore(s).put(o);r.onsuccess=ok;r.onerror=no})}
+async function refresh(){songs=await all('songs');playlists=await all('playlists');renderLibrary();renderPlaylists();fillEditSelect();fill8dSelect()}
+function renderLibrary(){let g=$('libraryGrid');g.innerHTML=songs.length?'':'<div class="empty">No songs in your library yet.</div>';songs.forEach(s=>{let d=document.createElement('div');d.className='tile';d.draggable=true;d.innerHTML='<div class="cover">'+(s.cover?'<img src="'+s.cover+'">':'')+'</div><div class="title">'+esc(s.name)+'</div>';d.onclick=()=>playSong(s);d.ondragstart=e=>e.dataTransfer.setData('songId',s.id);g.appendChild(d)})}
+function renderPlaylists(){let g=$('playlistGrid');g.innerHTML=playlists.length?'':'<div class="empty">No playlists yet.</div>';playlists.forEach(p=>{let d=document.createElement('div');d.className='tile';d.innerHTML='<div class="cover"></div><div class="title">'+esc(p.name)+'</div><div class="count">'+p.songIds.length+' songs</div>';d.onclick=()=>openPlaylist(p);d.ondragover=e=>e.preventDefault();d.ondrop=async e=>{e.preventDefault();let id=Number(e.dataTransfer.getData('songId'));if(!p.songIds.includes(id)){p.songIds.push(id);await put('playlists',p);refresh()}};g.appendChild(d)})}
+function openPlaylist(p){let g=$('playlistGrid');g.innerHTML='<div style="grid-column:1/-1;max-width:800px;margin:auto;width:100%"><button onclick="renderPlaylists()" style="padding:8px 12px">← Back</button><h2>'+esc(p.name)+'</h2><div id="plSongs"></div></div>';let l=$('plSongs');if(!p.songIds.length){l.innerHTML='<div class="empty">Drag songs from the Library onto this playlist.</div>';return}p.songIds.forEach(id=>{let s=songs.find(x=>x.id===id);if(!s)return;let r=document.createElement('div');r.style='display:flex;align-items:center;gap:12px;padding:10px;border-bottom:1px solid #191919;cursor:pointer';r.innerHTML=(s.cover?'<img src="'+s.cover+'" style="width:42px;height:42px;object-fit:cover">':'')+'<span>'+esc(s.name)+'</span>';r.onclick=()=>playSong(s);l.appendChild(r)})}
+function newPlaylist(){$('modal').classList.add('open');$('playlistName').focus()}function closeModal(){$('modal').classList.remove('open')}async function createPlaylist(){let n=$('playlistName').value.trim();if(!n)return;await add('playlists',{name:n,songIds:[]});$('playlistName').value='';closeModal();refresh()}
+const audio=$('audio');function playSong(s){current=songs.findIndex(x=>x.id===s.id);audio.src=URL.createObjectURL(s.blob);audio.play();$('nowName').textContent=s.name;let im=$('homeImg');if(s.cover){im.src=s.cover;im.style.display='block';$('homeText').style.display='none'}else{im.style.display='none';$('homeText').style.display='block'}}function toggle(){if(!audio.src)return;audio.paused?audio.play():audio.pause();$('play').textContent=audio.paused?'▶':'Ⅱ'}function prev(){if(songs.length){current=(current-1+songs.length)%songs.length;playSong(songs[current])}}function next(){if(songs.length){current=(current+1)%songs.length;playSong(songs[current])}}function toggleRepeat(){repeat=!repeat;$('repeat').classList.toggle('on',repeat)}audio.ontimeupdate=()=>{$('cur').textContent=fmt(audio.currentTime);$('dur').textContent=fmt(audio.duration);$('seek').value=audio.duration?audio.currentTime/audio.duration*100:0};audio.onplay=()=>{$('play').textContent='Ⅱ'};audio.onpause=()=>{$('play').textContent='▶'};audio.onended=()=>repeat?(audio.currentTime=0,audio.play()):next();$('seek').oninput=()=>{if(audio.duration)audio.currentTime=$('seek').value/100*audio.duration};
+function fileURL(f){return new Promise((ok,no)=>{let r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)})}
+async function chooseUpload(f){if(!f)return;pending=f;$('songName').value=f.name.replace(/\.[^/.]+$/,'');$('uploadStatus').textContent='Ready: '+f.name;go('upload')}
+$('uploadBox').onclick=e=>{if(e.target.id!=='uploadFile')$('uploadFile').click()};$('uploadFile').onchange=()=>chooseUpload($('uploadFile').files[0]);$('uploadBox').ondragover=e=>e.preventDefault();$('uploadBox').ondrop=e=>{e.preventDefault();chooseUpload(e.dataTransfer.files[0])};$('coverBox').onclick=e=>{if(e.target.id!=='coverFile')$('coverFile').click()};$('coverFile').onchange=async()=>{let f=$('coverFile').files[0];if(f){$('coverPreview').src=await fileURL(f);$('coverPreview').classList.add('show')}};$('saveUpload').onclick=async()=>{if(!pending)return $('uploadStatus').textContent='Choose a song first.';let cover=$('coverFile').files[0]?await fileURL($('coverFile').files[0]):null;await add('songs',{name:$('songName').value.trim()||'Untitled',blob:pending,cover,repeatCount:Number($('repeatCount').value)||0,hideName:$('hideName').checked});pending=null;$('uploadStatus').textContent='Saved to library.';await refresh()};
+function fillEditSelect(){$('editorSelect').innerHTML='<option>Select</option>'+songs.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join('')}function fill8dSelect(){$('eightSelect').innerHTML='<option>Select</option>'+songs.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join('')}
+function pickEditorLibrary(){fillEditSelect();$('editorSelect').click()}async function decode(blob){let c=new AudioContext(),b=await c.decodeAudioData(await blob.arrayBuffer());await c.close();return b}
+async function loadEditor(blob,name){editBuf=await decode(blob);editStart=0;editEnd=editBuf.duration;editHead=0;editedBase=name;$('editorSelected').textContent=name+' • '+fmt(editBuf.duration);drawWave();updateEditor()}
+$('editorSelect').onchange=async()=>{let s=songs.find(x=>x.id===Number($('editorSelect').value));if(s)loadEditor(s.blob,s.name)};$('editorFile').onchange=()=>{let f=$('editorFile').files[0];if(f)loadEditor(f,f.name.replace(/\.[^/.]+$/,''))};
+function drawWave(){let b=$('bars');b.innerHTML='';if(!editBuf)return;let d=editBuf.getChannelData(0),n=150,step=Math.max(1,Math.floor(d.length/n));for(let i=0;i<n;i++){let sum=0,c=0;for(let j=0;j<step&&i*step+j<d.length;j++){sum+=Math.abs(d[i*step+j]);c++}let x=document.createElement('i');x.className='bar';x.style.height=Math.max(5,Math.min(100,sum/c*220))+'%';b.appendChild(x)}}
+function updateEditor(){if(!editBuf)return;let d=editBuf.duration,a=editStart/d*100,z=editEnd/d*100,h=editHead/d*100;$('selection').style.left=a+'%';$('selection').style.width=(z-a)+'%';$('startHandle').style.left='calc('+a+'% - 5px)';$('endHandle').style.left='calc('+z+'% - 5px)';$('head').style.left='calc('+h+'% - 1px)';$('startTime').textContent=fmt(editStart);$('playTime').textContent=fmt(editHead);$('endTime').textContent=fmt(editEnd)}
+let drag=null;$('wave').onpointerdown=e=>{if(!editBuf)return;let r=$('wave').getBoundingClientRect(),t=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*editBuf.duration;let ds=Math.abs(t-editStart),de=Math.abs(t-editEnd),dh=Math.abs(t-editHead);drag=Math.min(ds,de,dh)===ds?'s':Math.min(ds,de,dh)===de?'e':'h';$('wave').setPointerCapture(e.pointerId);moveWave(e)};$('wave').onpointermove=e=>{if(drag)moveWave(e)};$('wave').onpointerup=()=>drag=null;$('wave').onpointercancel=()=>drag=null;
+function moveWave(e){let r=$('wave').getBoundingClientRect(),t=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*editBuf.duration;if(drag==='s')editStart=Math.min(t,editEnd-.05);if(drag==='e')editEnd=Math.max(t,editStart+.05);if(drag==='h')editHead=t;updateEditor()}function resetCut(){if(editBuf){editStart=0;editEnd=editBuf.duration;editHead=0;updateEditor()}}function cutAtHead(){if(editBuf){if(editHead>editStart&&editHead<editEnd)editEnd=editHead;updateEditor()}}
+async function previewEdit(){if(!editBuf)return;let c=new AudioContext(),s=c.createBufferSource(),g=c.createGain();s.buffer=editBuf;s.connect(g).connect(c.destination);let d=editEnd-editStart,fi=$('fadeIn').checked?Math.min(2,d/2):0,fo=$('fadeOut').checked?Math.min(2,d/2):0;g.gain.setValueAtTime(fi?0:1,c.currentTime);if(fi)g.gain.linearRampToValueAtTime(1,c.currentTime+fi);if(fo){g.gain.setValueAtTime(1,c.currentTime+d-fo);g.gain.linearRampToValueAtTime(0,c.currentTime+d)}s.start(0,editStart,d)}
+function mp3(L,R,rate){if(!window.lamejs)throw Error('MP3 encoder failed to load.');let e=new lamejs.Mp3Encoder(2,rate,192),parts=[],n=1152;for(let i=0;i<L.length;i+=n){let z=Math.min(n,L.length-i),l=new Int16Array(z),r=new Int16Array(z);for(let j=0;j<z;j++){l[j]=Math.max(-1,Math.min(1,L[i+j]))*32767;r[j]=Math.max(-1,Math.min(1,R[i+j]))*32767}let x=e.encodeBuffer(l,r);if(x.length)parts.push(new Int8Array(x))}let x=e.flush();if(x.length)parts.push(new Int8Array(x));return new Blob(parts,{type:'audio/mpeg'})}
+async function makeEdit(){let b=editBuf,rate=b.sampleRate,n=Math.floor((editEnd-editStart)*rate),a=b.getChannelData(0),z=b.numberOfChannels>1?b.getChannelData(1):a,L=new Float32Array(n),R=new Float32Array(n),d=editEnd-editStart;for(let i=0;i<n;i++){let p=Math.floor((editStart+i/rate)*rate),f=1,t=i/rate;if($('fadeIn').checked)f=Math.min(f,t/2);if($('fadeOut').checked)f=Math.min(f,(d-t)/2);L[i]=a[p]*Math.max(0,f);R[i]=z[p]*Math.max(0,f)}return mp3(L,R,rate)}
+async function exportEdited(){if(!editBuf)return $('editorStatus').textContent='Select or upload a song first.';try{ $('editorStatus').textContent='Rendering…';editedBlob=await makeEdit();$('projectName').value=editedBase+' (edited)';$('result').classList.add('show');$('editorStatus').textContent='Ready to export.'}catch(e){$('editorStatus').textContent=e.message}}
+function dl(blob,name){let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name+'.mp3';a.click()}function downloadEdited(){if(editedBlob)dl(editedBlob,$('projectName').value.trim()||'Edited song')}async function saveEdited(){if(!editedBlob)return;let n=$('projectName').value.trim()||'Edited song';await add('songs',{name:n,blob:editedBlob,cover:null});await refresh();$('editorStatus').textContent='Saved to library.'}
+function pick8d(){fill8dSelect();$('eightSelect').click()}$('eightFile').onchange=()=>{let f=$('eightFile').files[0];if(f){$('eightSelected').textContent=f.name;$('eightSelected')._file=f}};$('speed').oninput=()=>$('speedVal').textContent=Number($('speed').value).toFixed(2)+' Hz';$('depth').oninput=()=>$('depthVal').textContent=Math.round(Number($('depth').value)*100)+'%';
+async function convert8d(){let s=songs.find(x=>x.id===Number($('eightSelect').value));if(!s)return $('eightStatus').textContent='Select a song first.';let b=await decode(s.blob),rate=b.sampleRate,L0=b.getChannelData(0),R0=b.numberOfChannels>1?b.getChannelData(1):L0,L=new Float32Array(b.length),R=new Float32Array(b.length),sp=Number($('speed').value),de=Number($('depth').value);for(let i=0;i<b.length;i++){let p=(Math.sin(i/rate*sp*2*Math.PI)*de+1)/2;L[i]=L0[i]*(1-p);R[i]=R0[i]*p}let blob=mp3(L,R,rate);dl(blob,s.name+' (8D)');$('eightStatus').textContent='8D MP3 downloaded.'}
+document.addEventListener('keydown',e=>{if(e.shiftKey&&e.key.toLowerCase()==='d'&&$('editor').classList.contains('active'))cutAtHead();if(e.code==='Space'&&!['INPUT','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();toggle()}});
+openDB().then(refresh);
+</script></body></html>
