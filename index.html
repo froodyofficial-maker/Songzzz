@@ -28,7 +28,12 @@ h1{font-size:36px;margin:0 0 40px}.blue{color:#168cff}.empty{text-align:center;c
 <section id="songs" class="page active"><div class="hero">
 <div class="hero-cover"><span id="homeText">No song uploaded</span><img id="homeImg" style="display:none;width:100%;height:100%;object-fit:cover"></div>
 <div class="now"><h2 id="nowName">Name of song</h2><div class="time" id="nowTime">Time</div><div class="controls"><button onclick="prev()">&lt;</button><button class="play" id="play" onclick="toggle()">▶</button><button onclick="next()">&gt;</button></div><button id="repeat" class="repeat" onclick="toggleRepeat()">↻ Repeat</button><div class="seek"><span id="cur">0:00</span><input id="seek" type="range" min="0" max="100" value="0"><span id="dur">0:00</span></div></div></div>
-<div class="quick"><h2>Quick Actions</h2><div class="quickrow"><button onclick="go('playlists')">Playlists</button><button onclick="go('library')">Songs</button><button onclick="go('tools')">Tools</button></div></div></section>
+<div class="quick"><h2>Quick Actions</h2><div class="quickrow"><button onclick="go('playlists')">Playlists</button><button onclick="go('library')">Songs</button><button onclick="go('tools')">Tools</button></div></div>
+<div style="margin-top:90px">
+  <h2 style="font-size:34px;margin-bottom:28px">Library</h2>
+  <div id="homeLibrary" class="grid3"></div>
+</div>
+</section>
 
 <section id="library" class="page"><h1>Library</h1><div id="libraryGrid" class="grid3"></div></section>
 
@@ -38,7 +43,13 @@ h1{font-size:36px;margin:0 0 40px}.blue{color:#168cff}.empty{text-align:center;c
 
 <section id="upload" class="page"><h1>Uploads</h1><div class="upload-layout"><div><label class="upload-box" id="uploadBox"><input id="uploadFile" type="file" accept="audio/*" hidden><span><b class="blue">Upload</b> a song<br>or drag it here</span></label><label class="upload-box" id="coverBox" style="height:150px;margin-top:14px"><input id="coverFile" type="file" accept="image/*" hidden><span><b class="blue">Upload</b> cover art<br>optional</span></label><img id="coverPreview" class="cover-preview"></div><div class="form"><div class="field"><input id="songName" placeholder="Name"></div><button id="saveUpload" class="upload-btn">Save to library</button><div class="settings">Settings</div><div class="setting">Put this song on repeat for <input id="repeatCount" type="number" min="0" value="0" style="width:80px;background:#0b0b0b;color:#fff;border:1px solid #292929;padding:7px"> when it plays</div><div class="setting"><input id="hideName" class="circle" type="checkbox"> Hide name</div><div id="uploadStatus" class="status"></div></div></div><div class="note">You can always change specific song settings later by right clicking a song in the songs channel</div></section>
 
-<section id="editor" class="page"><div class="tool-head"><span class="blue">Song</span> editor</div><div class="source-row"><button class="source-card" onclick="pickEditorLibrary()">Select <b>songs</b><br>from library</button><span>or</span><label class="source-card"><input id="editorFile" type="file" accept="audio/*" hidden><span><b>Upload</b> a song</span></label><select id="editorSelect" class="hidden"></select></div><div id="editorSelected" class="status">No song selected</div><div class="editor-fades"><label>Fade in <input id="fadeIn" class="circle" type="checkbox"></label><label>Fade out <input id="fadeOut" class="circle" type="checkbox"></label></div><div class="editor-wrap"><div class="timeline-title"><span>Timeline</span><span class="cut">Cut <small style="color:#eee">(shift+d)</small></span></div><div id="wave" class="wave"><div id="bars" class="bars"></div><div id="selection" class="selection"></div><div id="startHandle" class="handle"></div><div id="endHandle" class="handle"></div><div id="head" class="head"></div></div><div class="times"><span id="startTime">0:00</span><span id="playTime">0:00</span><span id="endTime">0:00</span></div><div class="editor-actions"><button class="pill" onclick="previewEdit()">▶ Preview</button><button class="pill" onclick="resetCut()">Reset</button><button class="pill" onclick="cutAtHead()">Cut at playhead</button></div></div><div id="editorStatus" class="status"></div><div id="result" class="result"><b style="font-size:19px">Song successfully edited</b><p style="color:#999">Name your project before exporting.</p><input id="projectName" placeholder="Project name"><div class="result-actions"><button onclick="saveEdited()">Save to library</button><button class="blue" onclick="downloadEdited()">↓ Download MP3</button></div></div></section>
+<section id="editor" class="page"><div class="tool-head"><span class="blue">Song</span> editor</div><div class="source-row"><button class="source-card" onclick="pickEditorLibrary()">Select <b>songs</b><br>from library</button><span>or</span><label class="source-card"><input id="editorFile" type="file" accept="audio/*" hidden><span><b>Upload</b> a song</span></label><select id="editorSelect" class="hidden"></select></div><div id="editorSelected" class="status">No song selected</div><div class="editor-fades"><label>Fade in <input id="fadeIn" class="circle" type="checkbox"></label><label>Fade out <input id="fadeOut" class="circle" type="checkbox"></label></div><div class="editor-wrap"><div class="timeline-title"><span>Timeline</span><span class="cut">Cut <small style="color:#eee">(shift+d)</small></span></div><div id="wave" class="wave"><div id="bars" class="bars"></div><div id="selection" class="selection"></div><div id="startHandle" class="handle"></div><div id="endHandle" class="handle"></div><div id="head" class="head"></div></div><div class="times"><span id="startTime">0:00</span><span id="playTime">0:00</span><span id="endTime">0:00</span></div><div class="editor-actions">
+  <button class="pill" id="editorPlayBtn" onclick="toggleEditorPlayback()">▶ Play</button>
+  <button class="pill" onclick="stopEditorPlayback()">■ Stop</button>
+  <button class="pill" onclick="previewEdit()">▶ Preview selection</button>
+  <button class="pill" onclick="resetCut()">Reset</button>
+  <button class="pill" onclick="cutAtHead()">Cut at playhead</button>
+</div></div><div id="editorStatus" class="status"></div><div id="result" class="result"><b style="font-size:19px">Song successfully edited</b><p style="color:#999">Name your project before exporting.</p><input id="projectName" placeholder="Project name"><div class="result-actions"><button onclick="saveEdited()">Save to library</button><button class="blue" onclick="downloadEdited()">↓ Download MP3</button></div></div></section>
 
 <section id="eightd" class="page"><div class="tool-head"><span class="blue">8D</span> Audio</div><div class="source-row"><button class="source-card" onclick="pick8d()">Select <b>songs</b><br>from library</button><span>or</span><label class="source-card"><input id="eightFile" type="file" accept="audio/*" hidden><span><b>Upload</b> a song</span></label><select id="eightSelect" class="hidden"></select></div><div id="eightSelected" class="status">No song selected</div><div style="max-width:600px;margin:35px auto;display:grid;grid-template-columns:1fr 1fr;gap:20px"><label>Speed <span id="speedVal" class="blue">0.35 Hz</span><input id="speed" class="range" type="range" min=".05" max="1.5" step=".05" value=".35"></label><label>Depth <span id="depthVal" class="blue">100%</span><input id="depth" class="range" type="range" min="0" max="1" step=".05" value="1"></label></div><div style="text-align:center"><button onclick="convert8d()" style="padding:12px 18px">Convert to 8D MP3</button></div><div id="eightStatus" class="status"></div></section>
 </main>
@@ -47,14 +58,36 @@ h1{font-size:36px;margin:0 0 40px}.blue{color:#168cff}.empty{text-align:center;c
 <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.all.js"></script>
 <script>
 const $=id=>document.getElementById(id),fmt=s=>!isFinite(s)?'0:00':Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let db,songs=[],playlists=[],current=-1,repeat=false,pending=null,editBuf=null,editStart=0,editEnd=0,editHead=0,editedBlob=null,editedBase='';
-function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===p));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',(p==='songs'||p==='library')?x.dataset.page==='songs':x.dataset.page===p));if(p==='library')renderLibrary();if(p==='playlists')renderPlaylists();if(p==='editor')fillEditSelect();if(p==='eightd')fill8dSelect()}
+function go(p){
+  stopAllEditorAudio();
+  if(typeof audio!=='undefined' && audio && !audio.paused) audio.pause();
+  document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===p));
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',(p==='songs'||p==='library')?x.dataset.page==='songs':x.dataset.page===p));
+  if(p==='library')renderLibrary();
+  if(p==='songs')renderHomeLibrary();
+  if(p==='playlists')renderPlaylists();
+  if(p==='editor')fillEditSelect();
+  if(p==='eightd')fill8dSelect();
+}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
 function openDB(){return new Promise((ok,no)=>{let r=indexedDB.open('songz-v7',1);r.onupgradeneeded=()=>{let d=r.result;if(!d.objectStoreNames.contains('songs'))d.createObjectStore('songs',{keyPath:'id',autoIncrement:true});if(!d.objectStoreNames.contains('playlists'))d.createObjectStore('playlists',{keyPath:'id',autoIncrement:true})};r.onsuccess=()=>{db=r.result;ok()};r.onerror=()=>no(r.error)})}
 function all(s){return new Promise((ok,no)=>{let r=db.transaction(s).objectStore(s).getAll();r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
 function add(s,o){return new Promise((ok,no)=>{let r=db.transaction(s,'readwrite').objectStore(s).add(o);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
 function put(s,o){return new Promise((ok,no)=>{let r=db.transaction(s,'readwrite').objectStore(s).put(o);r.onsuccess=ok;r.onerror=no})}
-async function refresh(){songs=await all('songs');playlists=await all('playlists');renderLibrary();renderPlaylists();fillEditSelect();fill8dSelect()}
+async function refresh(){songs=await all('songs');playlists=await all('playlists');renderLibrary();renderHomeLibrary();renderPlaylists();fillEditSelect();fill8dSelect()}
 function renderLibrary(){let g=$('libraryGrid');g.innerHTML=songs.length?'':'<div class="empty">No songs in your library yet.</div>';songs.forEach(s=>{let d=document.createElement('div');d.className='tile';d.draggable=true;d.innerHTML='<div class="cover">'+(s.cover?'<img src="'+s.cover+'">':'')+'</div><div class="title">'+esc(s.name)+'</div>';d.onclick=()=>playSong(s);d.ondragstart=e=>e.dataTransfer.setData('songId',s.id);g.appendChild(d)})}
+function renderHomeLibrary(){
+  const g=$('homeLibrary');
+  if(!g)return;
+  g.innerHTML=songs.length?'':'<div class="empty">Your library is empty. Add songs from Tools → Uploads.</div>';
+  songs.forEach(s=>{
+    const d=document.createElement('div');
+    d.className='tile';
+    d.innerHTML='<div class="cover">'+(s.cover?'<img src="'+s.cover+'">':'')+'</div><div class="title">'+esc(s.name)+'</div>';
+    d.onclick=()=>playSong(s);
+    g.appendChild(d);
+  });
+}
 function renderPlaylists(){let g=$('playlistGrid');g.innerHTML=playlists.length?'':'<div class="empty">No playlists yet.</div>';playlists.forEach(p=>{let d=document.createElement('div');d.className='tile';d.innerHTML='<div class="cover"></div><div class="title">'+esc(p.name)+'</div><div class="count">'+p.songIds.length+' songs</div>';d.onclick=()=>openPlaylist(p);d.ondragover=e=>e.preventDefault();d.ondrop=async e=>{e.preventDefault();let id=Number(e.dataTransfer.getData('songId'));if(!p.songIds.includes(id)){p.songIds.push(id);await put('playlists',p);refresh()}};g.appendChild(d)})}
 function openPlaylist(p){let g=$('playlistGrid');g.innerHTML='<div style="grid-column:1/-1;max-width:800px;margin:auto;width:100%"><button onclick="renderPlaylists()" style="padding:8px 12px">← Back</button><h2>'+esc(p.name)+'</h2><div id="plSongs"></div></div>';let l=$('plSongs');if(!p.songIds.length){l.innerHTML='<div class="empty">Drag songs from the Library onto this playlist.</div>';return}p.songIds.forEach(id=>{let s=songs.find(x=>x.id===id);if(!s)return;let r=document.createElement('div');r.style='display:flex;align-items:center;gap:12px;padding:10px;border-bottom:1px solid #191919;cursor:pointer';r.innerHTML=(s.cover?'<img src="'+s.cover+'" style="width:42px;height:42px;object-fit:cover">':'')+'<span>'+esc(s.name)+'</span>';r.onclick=()=>playSong(s);l.appendChild(r)})}
 function newPlaylist(){$('modal').classList.add('open');$('playlistName').focus()}function closeModal(){$('modal').classList.remove('open')}async function createPlaylist(){let n=$('playlistName').value.trim();if(!n)return;await add('playlists',{name:n,songIds:[]});$('playlistName').value='';closeModal();refresh()}
@@ -64,19 +97,69 @@ async function chooseUpload(f){if(!f)return;pending=f;$('songName').value=f.name
 $('uploadBox').onclick=e=>{if(e.target.id!=='uploadFile')$('uploadFile').click()};$('uploadFile').onchange=()=>chooseUpload($('uploadFile').files[0]);$('uploadBox').ondragover=e=>e.preventDefault();$('uploadBox').ondrop=e=>{e.preventDefault();chooseUpload(e.dataTransfer.files[0])};$('coverBox').onclick=e=>{if(e.target.id!=='coverFile')$('coverFile').click()};$('coverFile').onchange=async()=>{let f=$('coverFile').files[0];if(f){$('coverPreview').src=await fileURL(f);$('coverPreview').classList.add('show')}};$('saveUpload').onclick=async()=>{if(!pending)return $('uploadStatus').textContent='Choose a song first.';let cover=$('coverFile').files[0]?await fileURL($('coverFile').files[0]):null;await add('songs',{name:$('songName').value.trim()||'Untitled',blob:pending,cover,repeatCount:Number($('repeatCount').value)||0,hideName:$('hideName').checked});pending=null;$('uploadStatus').textContent='Saved to library.';await refresh()};
 function fillEditSelect(){$('editorSelect').innerHTML='<option>Select</option>'+songs.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join('')}function fill8dSelect(){$('eightSelect').innerHTML='<option>Select</option>'+songs.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join('')}
 function pickEditorLibrary(){fillEditSelect();$('editorSelect').click()}async function decode(blob){let c=new AudioContext(),b=await c.decodeAudioData(await blob.arrayBuffer());await c.close();return b}
-async function loadEditor(blob,name){editBuf=await decode(blob);editStart=0;editEnd=editBuf.duration;editHead=0;editedBase=name;$('editorSelected').textContent=name+' • '+fmt(editBuf.duration);drawWave();updateEditor()}
+async function loadEditor(blob,name){stopAllEditorAudio();editBuf=await decode(blob);editStart=0;editEnd=editBuf.duration;editHead=0;editedBase=name;$('editorSelected').textContent=name+' • '+fmt(editBuf.duration);drawWave();updateEditor()}
 $('editorSelect').onchange=async()=>{let s=songs.find(x=>x.id===Number($('editorSelect').value));if(s)loadEditor(s.blob,s.name)};$('editorFile').onchange=()=>{let f=$('editorFile').files[0];if(f)loadEditor(f,f.name.replace(/\.[^/.]+$/,''))};
 function drawWave(){let b=$('bars');b.innerHTML='';if(!editBuf)return;let d=editBuf.getChannelData(0),n=150,step=Math.max(1,Math.floor(d.length/n));for(let i=0;i<n;i++){let sum=0,c=0;for(let j=0;j<step&&i*step+j<d.length;j++){sum+=Math.abs(d[i*step+j]);c++}let x=document.createElement('i');x.className='bar';x.style.height=Math.max(5,Math.min(100,sum/c*220))+'%';b.appendChild(x)}}
 function updateEditor(){if(!editBuf)return;let d=editBuf.duration,a=editStart/d*100,z=editEnd/d*100,h=editHead/d*100;$('selection').style.left=a+'%';$('selection').style.width=(z-a)+'%';$('startHandle').style.left='calc('+a+'% - 5px)';$('endHandle').style.left='calc('+z+'% - 5px)';$('head').style.left='calc('+h+'% - 1px)';$('startTime').textContent=fmt(editStart);$('playTime').textContent=fmt(editHead);$('endTime').textContent=fmt(editEnd)}
 let drag=null;$('wave').onpointerdown=e=>{if(!editBuf)return;let r=$('wave').getBoundingClientRect(),t=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*editBuf.duration;let ds=Math.abs(t-editStart),de=Math.abs(t-editEnd),dh=Math.abs(t-editHead);drag=Math.min(ds,de,dh)===ds?'s':Math.min(ds,de,dh)===de?'e':'h';$('wave').setPointerCapture(e.pointerId);moveWave(e)};$('wave').onpointermove=e=>{if(drag)moveWave(e)};$('wave').onpointerup=()=>drag=null;$('wave').onpointercancel=()=>drag=null;
 function moveWave(e){let r=$('wave').getBoundingClientRect(),t=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*editBuf.duration;if(drag==='s')editStart=Math.min(t,editEnd-.05);if(drag==='e')editEnd=Math.max(t,editStart+.05);if(drag==='h')editHead=t;updateEditor()}function resetCut(){if(editBuf){editStart=0;editEnd=editBuf.duration;editHead=0;updateEditor()}}function cutAtHead(){if(editBuf){if(editHead>editStart&&editHead<editEnd)editEnd=editHead;updateEditor()}}
-async function previewEdit(){if(!editBuf)return;let c=new AudioContext(),s=c.createBufferSource(),g=c.createGain();s.buffer=editBuf;s.connect(g).connect(c.destination);let d=editEnd-editStart,fi=$('fadeIn').checked?Math.min(2,d/2):0,fo=$('fadeOut').checked?Math.min(2,d/2):0;g.gain.setValueAtTime(fi?0:1,c.currentTime);if(fi)g.gain.linearRampToValueAtTime(1,c.currentTime+fi);if(fo){g.gain.setValueAtTime(1,c.currentTime+d-fo);g.gain.linearRampToValueAtTime(0,c.currentTime+d)}s.start(0,editStart,d)}
+let editorCtx=null,editorSource=null,editorGain=null,editorPlaying=false,editorStartedAt=0,editorOffset=0,editorStopTimer=null;
+
+function stopEditorPlayback(){
+  if(editorSource){try{editorSource.stop()}catch(e){} editorSource=null}
+  if(editorCtx){try{editorCtx.close()}catch(e){} editorCtx=null}
+  if(editorStopTimer)clearTimeout(editorStopTimer);
+  editorStopTimer=null; editorPlaying=false; editorOffset=0;
+  if($('editorPlayBtn'))$('editorPlayBtn').textContent='▶ Play';
+}
+function stopAllEditorAudio(){stopEditorPlayback()}
+
+function toggleEditorPlayback(){
+  if(!editBuf)return;
+  if(editorPlaying){stopEditorPlayback();return}
+  editorCtx=new AudioContext();
+  editorSource=editorCtx.createBufferSource();
+  editorGain=editorCtx.createGain();
+  editorSource.buffer=editBuf;
+  editorSource.connect(editorGain).connect(editorCtx.destination);
+  const start=Math.max(0,Math.min(editHead,editBuf.duration-.001));
+  const remaining=Math.max(.01,editBuf.duration-start);
+  editorSource.start(0,start,remaining);
+  editorPlaying=true;
+  editorStartedAt=performance.now();
+  editorOffset=start;
+  $('editorPlayBtn').textContent='Ⅱ Pause';
+  editorSource.onended=()=>{if(editorPlaying){stopEditorPlayback();editHead=editBuf.duration;updateEditor()}};
+  editorStopTimer=setInterval(()=>{
+    if(!editorPlaying)return;
+    editHead=Math.min(editBuf.duration,start+(performance.now()-editorStartedAt)/1000);
+    updateEditor();
+  },40);
+}
+
+async function previewEdit(){if(!editBuf)return;stopEditorPlayback();let c=new AudioContext(),s=c.createBufferSource(),g=c.createGain();s.buffer=editBuf;s.connect(g).connect(c.destination);let d=editEnd-editStart,fi=$('fadeIn').checked?Math.min(2,d/2):0,fo=$('fadeOut').checked?Math.min(2,d/2):0;g.gain.setValueAtTime(fi?0:1,c.currentTime);if(fi)g.gain.linearRampToValueAtTime(1,c.currentTime+fi);if(fo){g.gain.setValueAtTime(1,c.currentTime+d-fo);g.gain.linearRampToValueAtTime(0,c.currentTime+d)}s.start(0,editStart,d)}
 function mp3(L,R,rate){if(!window.lamejs)throw Error('MP3 encoder failed to load.');let e=new lamejs.Mp3Encoder(2,rate,192),parts=[],n=1152;for(let i=0;i<L.length;i+=n){let z=Math.min(n,L.length-i),l=new Int16Array(z),r=new Int16Array(z);for(let j=0;j<z;j++){l[j]=Math.max(-1,Math.min(1,L[i+j]))*32767;r[j]=Math.max(-1,Math.min(1,R[i+j]))*32767}let x=e.encodeBuffer(l,r);if(x.length)parts.push(new Int8Array(x))}let x=e.flush();if(x.length)parts.push(new Int8Array(x));return new Blob(parts,{type:'audio/mpeg'})}
 async function makeEdit(){let b=editBuf,rate=b.sampleRate,n=Math.floor((editEnd-editStart)*rate),a=b.getChannelData(0),z=b.numberOfChannels>1?b.getChannelData(1):a,L=new Float32Array(n),R=new Float32Array(n),d=editEnd-editStart;for(let i=0;i<n;i++){let p=Math.floor((editStart+i/rate)*rate),f=1,t=i/rate;if($('fadeIn').checked)f=Math.min(f,t/2);if($('fadeOut').checked)f=Math.min(f,(d-t)/2);L[i]=a[p]*Math.max(0,f);R[i]=z[p]*Math.max(0,f)}return mp3(L,R,rate)}
 async function exportEdited(){if(!editBuf)return $('editorStatus').textContent='Select or upload a song first.';try{ $('editorStatus').textContent='Rendering…';editedBlob=await makeEdit();$('projectName').value=editedBase+' (edited)';$('result').classList.add('show');$('editorStatus').textContent='Ready to export.'}catch(e){$('editorStatus').textContent=e.message}}
 function dl(blob,name){let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name+'.mp3';a.click()}function downloadEdited(){if(editedBlob)dl(editedBlob,$('projectName').value.trim()||'Edited song')}async function saveEdited(){if(!editedBlob)return;let n=$('projectName').value.trim()||'Edited song';await add('songs',{name:n,blob:editedBlob,cover:null});await refresh();$('editorStatus').textContent='Saved to library.'}
-function pick8d(){fill8dSelect();$('eightSelect').click()}$('eightFile').onchange=()=>{let f=$('eightFile').files[0];if(f){$('eightSelected').textContent=f.name;$('eightSelected')._file=f}};$('speed').oninput=()=>$('speedVal').textContent=Number($('speed').value).toFixed(2)+' Hz';$('depth').oninput=()=>$('depthVal').textContent=Math.round(Number($('depth').value)*100)+'%';
-async function convert8d(){let s=songs.find(x=>x.id===Number($('eightSelect').value));if(!s)return $('eightStatus').textContent='Select a song first.';let b=await decode(s.blob),rate=b.sampleRate,L0=b.getChannelData(0),R0=b.numberOfChannels>1?b.getChannelData(1):L0,L=new Float32Array(b.length),R=new Float32Array(b.length),sp=Number($('speed').value),de=Number($('depth').value);for(let i=0;i<b.length;i++){let p=(Math.sin(i/rate*sp*2*Math.PI)*de+1)/2;L[i]=L0[i]*(1-p);R[i]=R0[i]*p}let blob=mp3(L,R,rate);dl(blob,s.name+' (8D)');$('eightStatus').textContent='8D MP3 downloaded.'}
+let eightUploadedFile=null;
+function pick8d(){fill8dSelect();$('eightSelect').click()}
+$('eightSelect').onchange=()=>{
+  const s=songs.find(x=>x.id===Number($('eightSelect').value));
+  if(s){eightUploadedFile=null;$('eightSelected').textContent=s.name}
+};
+$('eightFile').onchange=()=>{
+  const f=$('eightFile').files[0];
+  if(f){eightUploadedFile=f;$('eightSelected').textContent=f.name}
+};
+$('speed').oninput=()=>$('speedVal').textContent=Number($('speed').value).toFixed(2)+' Hz';$('depth').oninput=()=>$('depthVal').textContent=Math.round(Number($('depth').value)*100)+'%';
+async function convert8d(){
+  let blobSource=null,sourceName='8D Audio';
+  let s=songs.find(x=>x.id===Number($('eightSelect').value));
+  if(eightUploadedFile){blobSource=eightUploadedFile;sourceName=eightUploadedFile.name.replace(/\.[^/.]+$/,'')}
+  else if(s){blobSource=s.blob;sourceName=s.name}
+  else return $('eightStatus').textContent='Select or upload a song first.';
+  let b=await decode(blobSource),rate=b.sampleRate,L0=b.getChannelData(0),R0=b.numberOfChannels>1?b.getChannelData(1):L0,L=new Float32Array(b.length),R=new Float32Array(b.length),sp=Number($('speed').value),de=Number($('depth').value);for(let i=0;i<b.length;i++){let p=(Math.sin(i/rate*sp*2*Math.PI)*de+1)/2;L[i]=L0[i]*(1-p);R[i]=R0[i]*p}let blob=mp3(L,R,rate);dl(blob,sourceName+' (8D)');$('eightStatus').textContent='8D MP3 downloaded.'}
 document.addEventListener('keydown',e=>{if(e.shiftKey&&e.key.toLowerCase()==='d'&&$('editor').classList.contains('active'))cutAtHead();if(e.code==='Space'&&!['INPUT','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();toggle()}});
 openDB().then(refresh);
 </script></body></html>
